@@ -8,3 +8,9 @@ Assuming you have docker installed and running:
 cd word-ranking
 docker-compose up
 ```
+
+## Test Api
+
+You can hit, for instance,
+http://localhost:5000/api/topwords?url=https://en.wikipedia.org/wiki/Peace&limit=50
+and it should return JSON data.
