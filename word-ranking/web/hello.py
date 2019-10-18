@@ -14,10 +14,10 @@ def hello_world():
 def top_words():
     # to do: add error checking
     url = request.args['url']
-    words = get_words_from_url(url)
+    words = get_top_words_from_url(url, 10)
     return jsonify(words)
 
-def get_words_from_url(url):
+def get_top_words_from_url(url, limit):
     response = requests.get(url)
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
@@ -45,7 +45,7 @@ def get_words_from_url(url):
     sorted_words = sorted(words_dict.items(),
                           key=lambda a:a[1],
                           reverse=True
-                         )[:10]
+                         )[:limit]
 
     sorted_words_dict = dict()
     for word, count in sorted_words:
