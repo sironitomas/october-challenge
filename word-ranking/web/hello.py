@@ -12,9 +12,10 @@ def hello_world():
 
 @app.route('/api/topwords', methods = ['GET'])
 def top_words():
-    # to do: add error checking
+    # to do: add parameter error checking
     url = request.args['url']
-    words = get_top_words_from_url(url, 10)
+    limit = int(request.args['limit'])
+    words = get_top_words_from_url(url, limit)
     return jsonify(words)
 
 def get_top_words_from_url(url, limit):
