@@ -48,8 +48,7 @@ def get_top_words_from_url(url, limit):
                           reverse=True
                          )[:limit]
 
-    sorted_words_dict = dict()
+    sorted_words_object = []
     for word, count in sorted_words:
-        sorted_words_dict[word] = count
-
-    return sorted_words_dict
+        sorted_words_object.append({word: count})
+    return sorted_words_object
