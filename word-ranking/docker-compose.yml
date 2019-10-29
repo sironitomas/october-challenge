@@ -5,11 +5,15 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
-      - "33060:33060"
+      - "33060:3306"
     environment:
       MYSQL_ROOT_PASSWORD: my-strong-password
 
   web:
     build: web
+    volumes:
+      - .:/code
+    environment:
+      FLASK_ENV: development
     ports:
       - "5000:5000"
