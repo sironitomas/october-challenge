@@ -1,9 +1,11 @@
+from bs4 import BeautifulSoup
+from collections import defaultdict
 from flask import Flask
 from flask import request
 from flask import jsonify
-from bs4 import BeautifulSoup
-from collections import defaultdict
+from .db import create_tables
 import requests
+
 app = Flask(__name__)
 
 @app.route('/')
