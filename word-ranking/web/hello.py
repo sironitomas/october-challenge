@@ -8,17 +8,20 @@ import requests
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/api/topwords', methods = ['GET'])
+
+@app.route('/api/topwords', methods=['GET'])
 def top_words():
     # to do: add parameter error checking
     url = request.args['url']
     limit = int(request.args['limit'])
     words = get_top_words_from_url(url, limit)
     return jsonify(words)
+
 
 def get_top_words_from_url(url, limit):
     response = requests.get(url)
@@ -45,10 +48,8 @@ def get_top_words_from_url(url, limit):
                 if word.isalnum():
                     words_dict[word.lower()] += 1
 
-    sorted_words = sorted(words_dict.items(),
-                          key=lambda a:a[1],
-                          reverse=True
-                         )[:limit]
+    sorted_words = sorted(words_dict.items(), key=lambda a: a[1],
+                          reverse=True)[:limit]
 
     sorted_words_object = []
     for word, count in sorted_words:
