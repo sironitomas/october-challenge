@@ -2,6 +2,8 @@ from __future__ import print_function
 import mysql.connector
 from mysql.connector import errorcode
 
+DB_NAME = 'ranking'
+
 
 def connect():
     try:
@@ -30,19 +32,18 @@ def create_database(cursor, DB_NAME):
 
 def create_tables():
     TABLES = {}
-    TABLES['employees'] = ("CREATE TABLE `allwords` ("
-                           "  `hash` varchar(32) NOT NULL AUTO_INCREMENT,"
-                           "  `word` varchar(64) NOT NULL,"
-                           "  `count` int(10) NOT NULL,"
-                           "  PRIMARY KEY (`hash`)"
-                           ") ENGINE=InnoDB")
+    TABLES['allwords'] = ("CREATE TABLE `allwords` ("
+                          "  `hash` varchar(32) NOT NULL,"
+                          "  `word` varchar(64) NOT NULL,"
+                          "  `count` int(10) NOT NULL,"
+                          "  PRIMARY KEY (`hash`)"
+                          ") ENGINE=InnoDB")
 
     cnx = mysql.connector.connect(user='root',
                                   password='my-strong-password',
                                   host='db')
     cursor = cnx.cursor()
 
-    DB_NAME = 'words'
     try:
         cursor.execute("USE {}".format(DB_NAME))
     except mysql.connector.Error as err:

@@ -3,7 +3,9 @@ from collections import defaultdict
 from flask import Flask
 from flask import request
 from flask import jsonify
+from .db import connect
 from .db import create_tables
+from .db import save_words
 import requests
 
 app = Flask(__name__)
@@ -18,12 +20,12 @@ def hello_world():
 def top_words():
     # to do: add parameter error checking
     url = request.args['url']
-    limit = int(request.args['limit'])
-    words = get_top_words_from_url(url, limit)
+    words = get_top_words_from_url(url)
+    save_words(words)
     return jsonify(words)
 
 
-def get_top_words_from_url(url, limit):
+def get_top_words_from_url(url, limit=100):
     response = requests.get(url)
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
