@@ -9,7 +9,8 @@ def connect():
     try:
         cnx = mysql.connector.connect(user='root',
                                       password='my-strong-password',
-                                      database='words')
+                                      host='db')
+        return cnx
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Something is wrong with your user name or password")
@@ -39,9 +40,7 @@ def create_tables():
                           "  PRIMARY KEY (`hash`)"
                           ") ENGINE=InnoDB")
 
-    cnx = mysql.connector.connect(user='root',
-                                  password='my-strong-password',
-                                  host='db')
+    cnx = connect()
     cursor = cnx.cursor()
 
     try:
@@ -74,9 +73,7 @@ def create_tables():
 
 
 def save_words(new_words):
-    cnx = mysql.connector.connect(user='root',
-                                  password='my-strong-password',
-                                  host='db')
+    cnx = connect()
     cursor = cnx.cursor()
 
     cursor.execute("USE {}".format(DB_NAME))
