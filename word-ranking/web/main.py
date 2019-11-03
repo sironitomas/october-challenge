@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
+    create_tables()
     return 'Hello, World!'
 
 

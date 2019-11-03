@@ -84,18 +84,13 @@ def save_words(new_words):
     cursor.execute(query)
     current_words_dict = {}
     for (word, count) in cursor:
-        # print(word, count)
         current_words_dict[word] = count
-
-    # print(current_words_dict)
 
     new_words_dict = {}
     for word_dict in new_words:
         for i in word_dict.items():
             word, count = i
         new_words_dict[word] = count
-
-    print(new_words_dict)
 
     inserts = []
     updates = []
