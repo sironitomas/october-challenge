@@ -1,11 +1,9 @@
+from .db import *
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from flask import Flask
 from flask import request
 from flask import jsonify
-from .db import connect
-from .db import create_tables
-from .db import save_words
 import requests
 
 app = Flask(__name__)

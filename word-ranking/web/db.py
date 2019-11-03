@@ -1,4 +1,4 @@
-from __future__ import print_function
+import hashlib
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -69,5 +69,54 @@ def create_tables():
         else:
             print("OK")
 
+    cursor.close()
+    cnx.close()
+
+
+def save_words(new_words):
+    cnx = mysql.connector.connect(user='root',
+                                  password='my-strong-password',
+                                  host='db')
+    cursor = cnx.cursor()
+
+    cursor.execute("USE {}".format(DB_NAME))
+    query = "SELECT word, count FROM allwords"
+    cursor.execute(query)
+    current_words_dict = {}
+    for (word, count) in cursor:
+        # print(word, count)
+        current_words_dict[word] = count
+
+    # print(current_words_dict)
+
+    new_words_dict = {}
+    for word_dict in new_words:
+        for i in word_dict.items():
+            word, count = i
+        new_words_dict[word] = count
+
+    print(new_words_dict)
+
+    inserts = []
+    updates = []
+    for word, count in new_words_dict.items():
+        res = hashlib.md5(word.encode())
+        md5sum = res.hexdigest()
+        if word in current_words_dict:
+            new_count = count + current_words_dict[word]
+            query = "UPDATE allwords SET count={} WHERE hash=\"{}\"".format(
+                new_count, md5sum)
+            updates.append(query)
+        else:
+            query = "INSERT INTO allwords VALUES (\"{}\", \"{}\", {})".format(
+                md5sum, word, count)
+            inserts.append(query)
+
+    for query in updates:
+        cursor.execute(query)
+    for query in inserts:
+        cursor.execute(query)
+
+    cnx.commit()
     cursor.close()
     cnx.close()
