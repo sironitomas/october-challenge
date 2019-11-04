@@ -84,9 +84,9 @@ def save_words(new_words):
         current_words_dict[word] = count
 
     new_words_dict = {}
-    for word_dict in new_words:
-        for i in word_dict.items():
-            word, count = i
+    for i in new_words:
+        word = i['word']
+        count = i['count']
         new_words_dict[word] = count
 
     inserts = []

@@ -54,5 +54,5 @@ def get_top_words_from_url(url, limit=100):
 
     sorted_words_object = []
     for word, count in sorted_words:
-        sorted_words_object.append({word: count})
+        sorted_words_object.append({'word': word, 'count': count})
     return sorted_words_object
