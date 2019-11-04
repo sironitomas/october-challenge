@@ -1,23 +1,26 @@
-from .db import *
+from .db import create_tables
+from .db import save_words
 from bs4 import BeautifulSoup
 from collections import defaultdict
 from flask import Flask
-from flask import request
 from flask import jsonify
+from flask import render_template
+from flask import request
 import requests
 
 app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
+def index():
+    # move somewhere else
     create_tables()
-    return 'Hello, World!'
+
+    return render_template('index.html')
 
 
 @app.route('/api/topwords', methods=['GET'])
 def top_words():
-    # to do: add parameter error checking
     url = request.args['url']
     words = get_top_words_from_url(url)
     save_words(words)

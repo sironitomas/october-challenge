@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Welcome to Word Ranking</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Word Ranking</h1>
+    <div class="form">
+        <form id="url-form" action="/api/topwords">
+            <input type="text" id="url" style="width: 25%">
+            <input type="submit" value="Fetch top 100 words">
+        </form>
+    </div>
+</div>
+<div id="result">
+</div>
+<script type='text/javascript'>
+  $("#url-form").submit(function(event) {
+    event.preventDefault();
+    var $form = $( this )
+    var endpoint = $form.attr('action');
+
+    $.get({
+      url: endpoint,
+      data: {'url': $('#url').val()},
+      success: success
+    });
+  });
+
+  function success(data) {
+    var content = '<ol>'
+      data.forEach(function (i) {
+          content += '<li>'
+          content += (i['word'] + ', ');
+          content += (i['count'] + ' times');
+          content += '</li>'
+      });
+      content += '</ol>'
+
+    $("#result").html(content);
+    console.log(content)
+  }
+</script>
+{% endblock %}
